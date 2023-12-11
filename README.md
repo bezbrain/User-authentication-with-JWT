@@ -1,1 +1,1 @@
-## JWT
+## JSON Web Token
