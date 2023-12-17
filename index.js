@@ -8,7 +8,7 @@ require("dotenv").config();
 app.use(express.json());
 
 // Initialize async error to hanlde async...await
-require("express-async-error");
+require("express-async-errors");
 
 // Import auth route
 const authRouter = require("./routes/auth.route");

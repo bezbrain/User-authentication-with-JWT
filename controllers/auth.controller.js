@@ -1,14 +1,12 @@
 const jwt = require("jsonwebtoken");
-const { StatusCode } = require("http-status-codes");
+const { StatusCodes } = require("http-status-codes");
+const BadRequestError = require("../errors/bad-request");
 
 // CREATE A USER
 const createUser = async (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) {
-    return res.status(StatusCode.BAD_REQUEST).json({
-      success: false,
-      message: "Please provide username and password",
-    });
+    throw new BadRequestError("Please provide username and password");
   }
   // Just for demo, normally id is provided by DB
   const id = Date.now();
@@ -17,7 +15,7 @@ const createUser = async (req, res) => {
     expiresIn: "30d",
   });
 
-  res.status(StatusCode.CREATED).json({
+  res.status(StatusCodes.CREATED).json({
     success: true,
     message: "User Created",
     token,
@@ -27,7 +25,7 @@ const createUser = async (req, res) => {
 // DASHBOARD FOR USERS TO ACCESS
 const dashboard = async (req, res) => {
   const luckyNumber = Math.floor(Math.random() * 100);
-  res.status(StatusCode.OK).json({
+  res.status(StatusCodes.OK).json({
     message: `Hello, ${req.user.username}`,
     secret: `Here is your authorized data, your lucky number is ${luckyNumber}`,
   });

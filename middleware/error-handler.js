@@ -1,9 +1,14 @@
-const { StatusCode } = require("http-status-codes");
+const { StatusCodes } = require("http-status-codes");
 
 const errorHandlerMiddleware = (err, req, res, next) => {
-  return res.status(StatusCode.INTERNAL_SERVER_ERROR).json({
+  let customError = {
+    statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
+    message: err.message,
+  };
+
+  res.status(customError.statusCode).json({
     success: false,
-    message: err,
+    message: customError.message,
   });
 };
 
