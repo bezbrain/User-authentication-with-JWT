@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { StatusCodes } = require("http-status-codes");
+const UnauthorizeError = require("../errors/unauthorize");
 
 const authMiddleware = async (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -22,10 +23,7 @@ const authMiddleware = async (req, res, next) => {
     req.user = { id, username };
     next();
   } catch (error) {
-    res.status(StatusCodes.UNAUTHORIZED).json({
-      success: false,
-      message: "Not authorized to access this route",
-    });
+    throw new UnauthorizeError("Not authorized to access this route");
   }
 };
 
